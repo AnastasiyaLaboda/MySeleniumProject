@@ -1,30 +1,21 @@
 package com.it_academy.test.listeners;
 
-import com.it_academy.test.BaseTest;
 import framework.DriverManager;
-import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.ByteArrayInputStream;
-
-public class TestListener implements ITestListener {
+public class AllureReportListener implements ITestListener {
+    @Attachment(value = "Page screenshot", type = "image/png")
+    public byte[] saveScreenshotPNG() {
+        return ((TakesScreenshot) DriverManager.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
 
     @Override
-    public void onTestFailure(ITestResult result) {
-        Object testClass = result.getInstance();
-        WebDriver driver = ((BaseTest) testClass).;
-        if (driver instanceof WebDriver) {
-            takeScreenshot(driver);
-        }
+    public void onTestFailure(ITestResult Result) {
+        saveScreenshotPNG();
     }
-
-    private void takeScreenshot(WebDriver driver) {
-        Allure.addAttachment("Screenshot of failed step",
-                new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-    }
-
 }
+

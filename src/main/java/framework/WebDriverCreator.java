@@ -1,2 +1,7 @@
-package framework;public interface WebDriverCreator {
+package framework;
+
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+public interface WebDriverCreator<T extends RemoteWebDriver> {
+    T create();
 }
